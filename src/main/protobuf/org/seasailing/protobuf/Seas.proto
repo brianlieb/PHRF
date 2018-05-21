@@ -1,0 +1,9 @@
+syntax="proto3";
+
+package org.seasailing;
+
+import "com/google/wrappers.proto"
+
+message Boat {
+    com.
+}

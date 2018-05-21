@@ -1,9 +1,96 @@
 syntax="proto3";
 
-package org.seasailing;
+package org.seasailing.protobuf;
+option java_package = "org.seasailing.protobuf";
+option java_multiple_files = true;
 
-import "com/google/wrappers.proto"
+import "google/protobuf/wrappers.proto";
 
-message Boat {
-    com.
+
+message PersonDTO {
+    google.protobuf.StringValue name = 1;
+    google.protobuf.StringValue email = 2;
+    google.protobuf.StringValue phone = 3;
 }
+
+message ClubDTO {
+    google.protobuf.Int32Value id = 1;
+    google.protobuf.StringValue name = 2;
+    google.protobuf.StringValue email = 3;
+    PersonDTO handicapper = 4;
+    HandicapDTO defaultHandicap = 5;
+}
+
+message BoatDTO {
+    google.protobuf.Int32Value id = 1;
+    google.protobuf.StringValue name = 2;
+    google.protobuf.StringValue make = 3;
+    google.protobuf.DoubleValue length = 4;
+    google.protobuf.Int32Value rating = 5;
+    PersonDTO skipper = 6;
+    google.protobuf.BoolValue active = 7;
+    ClubDTO club = 8;
+}
+
+message HandicapDTO {
+    enum Method {
+        TIME_ON_TIME = 0;
+        TIME_ON_DISTANCE = 1;
+    }
+
+    google.protobuf.Int32Value denominator = 1;
+    Method method = 4;
+}
+
+message FinishTimeDTO {
+    enum Status {
+        FINISHED = 0;
+        DNS = 1;
+        DNF = 2;
+        DSQ = 3;
+    }
+
+    BoatDTO boat = 1;
+    Status status = 2;
+    google.protobuf.Int64Value elapsedTime = 3;
+    google.protobuf.Int64Value correctedTime = 4;
+    FinishRaceDTO race = 5;
+}
+
+message SeriesDTO {
+    google.protobuf.Int32Value id  = 1;
+    google.protobuf.StringValue name = 2;
+    google.protobuf.StringValue description = 3;
+    google.protobuf.StringValue sponsor = 4;
+    google.protobuf.Int32Value defaultMultiplier = 5;
+    ClubDTO club = 6;
+}
+
+message CourseDTO {
+    google.protobuf.Int32Value id  = 1;
+    google.protobuf.StringValue name = 2;
+    google.protobuf.StringValue description = 3;
+    google.protobuf.DoubleValue distance = 4;
+    ClubDTO club = 5;
+}
+
+message FinishRaceDTO {
+    enum Option {
+        DEFAULT = 0;
+        TWICE = 1;
+        REVERSE = 2;
+    }
+
+    google.protobuf.Int32Value id = 1;
+    google.protobuf.Int64Value startTime = 2;
+    SeriesDTO series = 3;
+    CourseDTO course = 4;
+    google.protobuf.Int32Value multiplier = 5;
+    Option option = 6;
+    HandicapDTO handicap = 7;
+    repeated FinishTimeDTO time = 8;
+}
+
+
+
+

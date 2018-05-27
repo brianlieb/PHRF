@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-reverse-engineering PUBLIC "-//Hibernate/Hibernate Reverse Engineering DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-reverse-engineering-3.0.dtd" >
+
+<hibernate-reverse-engineering>
+			<schema-selection match-schema="seas" />
+
+			<type-mapping>
+			<sql-type jdbc-type="OTHER" hibernate-type="java.util.Date"/>
+			<sql-type jdbc-type="TIMESTAMP"
+					  hibernate-type="java.util.Date">
+			</sql-type>
+			<sql-type jdbc-type="DATE" hibernate-type="java.util.Date"/>
+			<sql-type jdbc-type="INTEGER" hibernate-type="java.lang.Integer"/>
+  			<sql-type jdbc-type="BIT" hibernate-type="java.lang.Boolean"/>
+			<sql-type jdbc-type="NUMERIC" scale="0" precision="4"
+				hibernate-type="java.lang.Short" />
+			<sql-type jdbc-type="NUMERIC" scale="0" precision="3"
+				hibernate-type="java.lang.Short" />
+			<sql-type jdbc-type="NUMERIC" scale="0" precision="2"
+				hibernate-type="java.lang.Short" />
+			<sql-type jdbc-type="NUMERIC" scale="0" precision="1"
+				hibernate-type="java.lang.Short" />
+			<sql-type jdbc-type="NUMERIC" scale="0"  precision="5" 
+				hibernate-type="java.lang.Integer" />
+			<sql-type jdbc-type="NUMERIC" scale="0"  precision="6" 
+				hibernate-type="java.lang.Integer" />
+			<sql-type jdbc-type="NUMERIC" scale="0"  precision="7" 
+				hibernate-type="java.lang.Integer" />
+			<sql-type jdbc-type="NUMERIC" scale="0"  precision="8" 
+				hibernate-type="java.lang.Integer" />
+			<sql-type jdbc-type="NUMERIC" scale="0"  precision="9" 
+				hibernate-type="java.lang.Integer" />
+			<sql-type jdbc-type="NUMERIC" scale="0"  precision="10" 
+				hibernate-type="java.lang.Long" />
+			<sql-type jdbc-type="NUMERIC" scale="0"  precision="11" 
+				hibernate-type="java.lang.Long" />
+			<sql-type jdbc-type="NUMERIC" scale="0"  precision="12" 
+				hibernate-type="java.lang.Long" />
+			<sql-type jdbc-type="NUMERIC" scale="0"  precision="13" 
+				hibernate-type="java.lang.Long" />
+			<sql-type jdbc-type="NUMERIC" scale="0"  precision="14" 
+				hibernate-type="java.lang.Long" />
+			<sql-type jdbc-type="NUMERIC" scale="0"  precision="15" 
+				hibernate-type="java.lang.Long" />
+			<sql-type jdbc-type="NUMERIC" scale="0"  precision="16" 
+				hibernate-type="java.lang.Long" />
+			<sql-type jdbc-type="NUMERIC" scale="0"  precision="17" 
+				hibernate-type="java.lang.Long" />
+			<sql-type jdbc-type="NUMERIC" scale="0"  precision="18" 
+				hibernate-type="java.lang.Long" />
+			<sql-type jdbc-type="FLOAT" hibernate-type="java.lang.Double" />
+			<sql-type jdbc-type="DECIMAL" scale="3" precision="2"
+				hibernate-type="java.lang.Double" />
+		</type-mapping>
+
+	<!-- seas tables -->
+	<table-filter package="org.seasailing.db.hibernate" match-name="club"/>
+	<table-filter package="org.seasailing.db.hibernate" match-name="complete" />
+	<table-filter package="org.seasailing.db.hibernate" match-name="course" />
+	<table-filter package="org.seasailing.db.hibernate" match-name="result" />
+	<table-filter package="org.seasailing.db.hibernate" match-name="sailboat" />
+	<table-filter package="org.seasailing.db.hibernate" match-name="series" />
+</hibernate-reverse-engineering>

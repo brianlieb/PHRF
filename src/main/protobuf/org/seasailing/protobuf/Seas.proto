@@ -7,6 +7,18 @@ option java_multiple_files = true;
 import "google/protobuf/wrappers.proto";
 
 
+message Msg {
+    enum Severity {
+        INFO = 0;
+        WARNING = 1;
+        ERROR = 2;
+        EXCEPTION = 3;
+    }
+
+    Severity severity = 1;
+    string message = 2;
+}
+
 message PersonDTO {
     google.protobuf.StringValue name = 1;
     google.protobuf.StringValue email = 2;
@@ -21,15 +33,20 @@ message ClubDTO {
     HandicapDTO defaultHandicap = 5;
 }
 
+
 message BoatDTO {
-    google.protobuf.Int32Value id = 1;
-    google.protobuf.StringValue name = 2;
-    google.protobuf.StringValue make = 3;
-    google.protobuf.DoubleValue length = 4;
-    google.protobuf.Int32Value rating = 5;
-    PersonDTO skipper = 6;
-    google.protobuf.BoolValue active = 7;
-    ClubDTO club = 8;
+    message BoatNameDTO {
+        google.protobuf.Int32Value id = 1;
+        google.protobuf.StringValue name = 2;
+    }
+
+    BoatNameDTO name = 1;
+    google.protobuf.StringValue make = 2;
+    google.protobuf.DoubleValue length = 3;
+    google.protobuf.Int32Value rating = 4;
+    PersonDTO skipper = 5;
+    google.protobuf.BoolValue active = 6;
+    ClubDTO club = 7;
 }
 
 message HandicapDTO {
@@ -42,19 +59,29 @@ message HandicapDTO {
     Method method = 4;
 }
 
-message FinishTimeDTO {
-    enum Status {
-        FINISHED = 0;
-        DNS = 1;
-        DNF = 2;
-        DSQ = 3;
-    }
+enum Status {
+    FINISHED = 0;
+    DNS = 1;
+    DNF = 2;
+    DSQ = 3;
+}
 
+
+message FinishTimeDTO {
     BoatDTO boat = 1;
     Status status = 2;
-    google.protobuf.Int64Value elapsedTime = 3;
-    google.protobuf.Int64Value correctedTime = 4;
-    FinishRaceDTO race = 5;
+    google.protobuf.Int64Value finishTime = 3;
+    RaceDTO race = 4;
+}
+
+message ResultDTO {
+    google.protobuf.StringValue boat = 1;
+    google.protobuf.Int32Value rating = 2;
+    Status status = 3;
+    google.protobuf.Int64Value finishTime = 4;
+    google.protobuf.Int64Value elapsedTime = 5;
+    google.protobuf.Int64Value correctedTime = 6;
+    RaceDTO race = 7;
 }
 
 message SeriesDTO {
@@ -74,7 +101,7 @@ message CourseDTO {
     ClubDTO club = 5;
 }
 
-message FinishRaceDTO {
+message RaceDTO {
     enum Option {
         DEFAULT = 0;
         TWICE = 1;
@@ -88,7 +115,7 @@ message FinishRaceDTO {
     google.protobuf.Int32Value multiplier = 5;
     Option option = 6;
     HandicapDTO handicap = 7;
-    repeated FinishTimeDTO time = 8;
+    repeated ResultDTO results = 8;
 }
 
 

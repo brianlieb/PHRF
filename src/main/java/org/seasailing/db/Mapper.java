@@ -65,8 +65,10 @@ public class Mapper {
                 return builder.build();
             };
 
+
+
     static final Function<BoatDTO, Sailboat> MAKE_BOAT =
-            dto -> {
+                    dto -> {
                     Sailboat sailboat = new Sailboat(
                         dto.hasClub()?MAKE_CLUB.apply(dto.getClub()):null,
                         dto.hasName()&&dto.getName().hasName()?dto.getName().getName().getValue():null,
@@ -79,14 +81,14 @@ public class Mapper {
                         dto.hasActive()?dto.getActive().getValue():null);
 
                     if (dto.hasName()&&dto.getName().hasId())  sailboat.setSailboatId(dto.getName().getId().getValue());
-                    return sailboat;
-            };
+                    return sailboat ;
+                    };
 
-    static final Function<ClubDTO, Optional<Integer>> GET_ID_FROM_CLUB =
-            club -> club.hasId()?Optional.of(club.getId().getValue()):Optional.empty();
+    static final Function<ClubDTO, Integer> GET_ID_FROM_CLUB =
+            club -> club.hasId()?club.getId().getValue():null;
 
-    static final Function<BoatDTO.BoatNameDTO, Optional<Integer>> GET_ID_FROM_BOAT_NAME =
-            name -> name.hasId()?Optional.of(name.getId().getValue()):Optional.empty();
+    static final Function<BoatDTO.BoatNameDTO, Integer> GET_ID_FROM_BOAT_NAME =
+            name -> name.hasId()?name.getId().getValue():null;
 
     static final Function<BoatDTO.BoatNameDTO, Optional<String>> GET_NAME_FROM_BOAT_NAME =
             name -> name.hasName()?Optional.of(name.getName().getValue()):Optional.empty();

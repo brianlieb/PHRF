@@ -1,22 +1,29 @@
 package org.seasailing.db.util;
 
 import java.util.Objects;
+import java.util.Optional;
 
 import org.hibernate.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.seasailing.db.util.HibernateSessionFactory.DataSource;
+import static org.seasailing.db.util.SessionUtility.*;
 
-public class Transaction extends SessionUtility {
+public class Transaction  {
 	private static Logger logger = LoggerFactory.getLogger(Transaction.class);
-	private Txn transaction = (s) -> {};
+	private Txn transaction_;
 	
 	public Transaction() {
 	}
 	
 	public Transaction addTxn(Txn transaction) {
-		this.transaction = this.transaction.andThen(transaction);
+		this.transaction_ = transaction.andThen(transaction);
+		return this;
+	}
+
+	public Transaction addTxn(Optional<Txn> transaction) {
+		transaction.ifPresent(transaction_::andThen);
 		return this;
 	}
 	
@@ -24,7 +31,7 @@ public class Transaction extends SessionUtility {
 		Session session = createSession(ds);
 		logger.info("Beginning Transaction!");
 		try {
-			this.transaction.execute(session);
+			this.transaction_.execute(session);
 		} catch (Exception e) {
 			rollbackAndClose(session);
 			throw logAndThrowError("Error running the transaction. " + e.getMessage());
@@ -35,16 +42,16 @@ public class Transaction extends SessionUtility {
 	}
 	
 	@FunctionalInterface
-	public interface Txn {
+	public interface Txn<T> {
 		
-	    void execute(Session s);
+	    T execute(Session s);
 
-	    default Txn andThen(Txn after) {
+	    default <Y> Txn<Y> andThen(Txn<Y> after) {
 	        Objects.requireNonNull(after);
 	        return (session) -> {
 	        	execute(session); 
 	        	logger.info("---");
-	        	after.execute(session); 
+				return after.execute(session);
 	        };
 	    }
 	    

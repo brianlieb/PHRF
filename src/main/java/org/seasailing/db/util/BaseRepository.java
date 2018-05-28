@@ -2,6 +2,7 @@ package org.seasailing.db.util;
 
 import java.util.Collection;
 import java.util.Optional;
+import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
@@ -31,36 +32,19 @@ public class BaseRepository {
 	}
 
 
-	protected static final Txn doNothing =
-			session -> {};
+    protected static final <X> Qry<X> saveOrUpdate(X x) {
+        return session -> {
+                session.saveOrUpdate(x);
+                return Optional.of(x);
+        };
+    }
 
-
-	protected static final Function<Object, Qry<Object>> hasId =
-            o ->
-        		session -> Optional.ofNullable(session.getIdentifier(o));
-
-	protected static final Function<Object, Txn> delete =
-		o ->
-                session -> hasId.apply(o).execute(session).ifPresent(id -> session.delete(o));
-
-	protected static final Function<Object, Txn> save =
-		o ->
-			s -> s.saveOrUpdate(o);
-
-	protected static final Function<Function<Object, Txn>, Function<Object, Txn>> prepareTransaction =
-			fn ->
-				o -> o!=null?fn.apply(o):doNothing;
-
-	protected static final <T> Txn prepareTransaction(Function<Object, Txn> txn, Collection<T> objects) {
-		return prepareTransaction(txn, objects.stream());
-	}
-
-	protected static final <T> Txn prepareTransaction(Function<Object, Txn> txn, Stream<T> stream) {
-		return stream
-				.map(o -> prepareTransaction.apply(txn).apply(o))
-				.reduce((t1, t2) -> t1.andThen(t2))
-				.orElse(doNothing);
-	}
+    protected static final <X> Qry<X> delete(X x) {
+        return session -> {
+                session.delete(x);
+                return Optional.of(x);
+        };
+    }
 
 	protected static final <X, Z> Function<Collection<X>, Collection<Z>> collectionMapper(Function<X,Z> mapper) {
 	    return collection -> collection.stream().map(mapper).collect(Collectors.toList());

@@ -4,7 +4,6 @@ package org.seasailing.db.util;
 import org.hibernate.Session;
 
 import java.util.Optional;
-import java.util.function.Function;
 
 import static org.seasailing.db.util.SessionUtility.*;
 
